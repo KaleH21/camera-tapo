@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import {
   Activity,
   ArrowRight,
   Camera,
-  Check,
   ChevronDown,
   CircleHelp,
   Clock3,
@@ -178,7 +178,8 @@ function App() {
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
   const [form, setForm] = useState<CameraForm>(blankForm);
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const refreshErrorShown = useRef(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [menuCamera, setMenuCamera] = useState<string | null>(null);
   const [viewers, setViewers] = useState<{ id: string; username: string; role: string }[]>([]);
@@ -188,13 +189,15 @@ function App() {
     try {
       const data = await api<{ items: CameraItem[] }>("/api/v1/cameras");
       setCameras(data.items);
+      refreshErrorShown.current = false;
       setSelectedId((previous) =>
         data.items.some((item) => item.id === previous)
           ? previous
           : data.items[0]?.id || null,
       );
     } catch (error) {
-      setMessage((error as Error).message);
+      if (!refreshErrorShown.current) toast.error((error as Error).message);
+      refreshErrorShown.current = true;
     }
   }, []);
 
@@ -211,15 +214,10 @@ function App() {
     return () => window.clearInterval(timer);
   }, [user, refresh]);
   useEffect(() => {
-    if (!message) return;
-    const timer = window.setTimeout(() => setMessage(""), 5000);
-    return () => window.clearTimeout(timer);
-  }, [message]);
-  useEffect(() => {
     if (user?.role !== 'admin' || view !== 'settings') return;
     api<{ items: { id: string; username: string; role: string }[] }>('/api/v1/users')
       .then(data => setViewers(data.items))
-      .catch(error => setMessage((error as Error).message));
+      .catch(error => toast.error((error as Error).message));
   }, [user, view]);
 
   const selected = cameras.find((camera) => camera.id === selectedId);
@@ -230,7 +228,7 @@ function App() {
   async function submitLogin(event: React.FormEvent) {
     event.preventDefault();
     setBusy(true);
-    setMessage("");
+    setLoginError("");
     try {
       setUser(
         await api<User>("/api/v1/auth/login", {
@@ -240,7 +238,8 @@ function App() {
       );
       setLogin({ username: "", password: "" });
     } catch (error) {
-      setMessage((error as Error).message);
+      setLoginError((error as Error).message);
+      toast.error((error as Error).message);
     } finally {
       setBusy(false);
     }
@@ -252,7 +251,7 @@ function App() {
       setUser(null);
       setCameras([]);
     } catch (error) {
-      setMessage((error as Error).message);
+      toast.error((error as Error).message);
     }
   }
   function openModal(mode: "add" | "edit", camera?: CameraItem) {
@@ -296,10 +295,10 @@ function App() {
       );
       setModal(null);
       setSelectedId(saved.id);
-      setMessage("Đã lưu camera");
+      toast.success("Đã lưu camera");
       await refresh();
     } catch (error) {
-      setMessage((error as Error).message);
+      toast.error((error as Error).message);
     } finally {
       setBusy(false);
     }
@@ -314,9 +313,10 @@ function App() {
         { method: "POST" },
         user.csrf_token,
       );
-      setMessage(result.message);
+      if (result.ok) toast.success(result.message);
+      else toast.error(result.message);
     } catch (error) {
-      setMessage((error as Error).message);
+      toast.error((error as Error).message);
     } finally {
       setBusy(false);
       refresh();
@@ -330,11 +330,11 @@ function App() {
         { method: "DELETE" },
         user.csrf_token,
       );
-      setMessage("Đã xóa camera");
+      toast.success("Đã xóa camera");
       setMenuCamera(null);
       await refresh();
     } catch (error) {
-      setMessage((error as Error).message);
+      toast.error((error as Error).message);
     }
   }
 
@@ -347,8 +347,8 @@ function App() {
       setViewerForm({ username: '', password: '' });
       const data = await api<{ items: { id: string; username: string; role: string }[] }>('/api/v1/users');
       setViewers(data.items);
-      setMessage('Đã tạo tài khoản người xem');
-    } catch (error) { setMessage((error as Error).message); }
+      toast.success('Đã tạo tài khoản người xem');
+    } catch (error) { toast.error((error as Error).message); }
     finally { setBusy(false); }
   }
 
@@ -444,9 +444,9 @@ function App() {
                 <ArrowRight size={18} />
               </button>
             </form>
-            {message && (
+            {loginError && (
               <div role="alert" className="form-message">
-                {message}
+                {loginError}
               </div>
             )}
             <div className="login-foot">
@@ -890,15 +890,6 @@ function App() {
           )}
         </main>
       </div>
-      {message && (
-        <div className="toast" role="status">
-          <Check size={17} />
-          {message}
-          <button aria-label="Đóng thông báo" onClick={() => setMessage("")}>
-            <X size={15} />
-          </button>
-        </div>
-      )}
       {modal && (
         <div
           className="modal-backdrop"
