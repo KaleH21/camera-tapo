@@ -1,0 +1,168 @@
+.camera-list {
+  display: grid;
+  gap: 8px;
+}
+.camera-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 7px 5px 7px 8px;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+.camera-row:hover,
+.camera-row.selected {
+  background: #1a2b3c;
+  border-color: #2b4553;
+}
+.camera-pick {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  min-width: 0;
+  flex: 1;
+  padding: 0;
+}
+.camera-thumb {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  background: linear-gradient(135deg, #2e425a, #1c3042);
+  display: grid;
+  place-items: center;
+  color: #9eb7cd;
+  border-radius: 8px;
+}
+.camera-copy {
+  min-width: 0;
+}
+.camera-copy strong,
+.camera-copy span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.camera-copy strong {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+.camera-copy span {
+  font-size: 14px;
+  color: #8091a4;
+}
+.camera-row-end {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #eaa263;
+  flex: none;
+}
+.status-dot.online {
+  background: #4cdbac;
+  box-shadow: 0 0 0 4px #4cdbac1a;
+}
+.status-dot.disabled {
+  background: #76879a;
+}
+.row-menu-wrap {
+  position: relative;
+}
+.more-button {
+  width: 31px;
+  height: 36px;
+}
+.row-menu {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  z-index: 10;
+  width: 145px;
+  background: #203046;
+  border: 1px solid #42536a;
+  border-radius: 9px;
+  padding: 5px;
+  box-shadow: 0 20px 35px #0008;
+}
+.row-menu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #d9e5f0;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  padding: 9px;
+  text-align: left;
+  font-size: 14px;
+}
+.row-menu button:hover {
+  background: #324860;
+}
+.row-menu button.danger {
+  color: #ff9ca4;
+}
+.camera-panel-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #29384d;
+  margin-top: 20px;
+  padding-top: 17px;
+  font-size: 14px;
+  color: #7890a4;
+}
+.camera-empty {
+  color: #8ea0b3;
+  font-size: 14px;
+  line-height: 1.7;
+  padding: 30px 10px;
+  text-align: center;
+}
+.empty-live {
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px dashed #385068;
+  border-radius: 11px;
+  background: #101c2a;
+  padding: 28px;
+}
+.empty-icon {
+  width: 66px;
+  height: 66px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: #1d3343;
+  color: #8fb9cb;
+  margin-bottom: 15px;
+}
+.empty-live h3 {
+  font-size: 16px;
+  margin: 0 0 7px;
+}
+.empty-live p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 250px;
+  margin-bottom: 17px;
+}

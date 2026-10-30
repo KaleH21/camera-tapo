@@ -1,5 +1,7 @@
 # Tapo Home Monitor — ứng dụng MVP
 
+Xem [docs/CODE_STRUCTURE.md](docs/CODE_STRUCTURE.md) để biết vai trò từng tầng và vị trí file sau khi tách cấu trúc.
+
 Mã nguồn `frontend/` (React, TypeScript, Vite) và `backend/` (FastAPI, SQLite) triển khai Phase 0 và phần mềm của Phase 1. Hệ thống chỉ dành cho LAN/VPN. **Không mở port 554 hoặc website ra Internet công khai.**
 
 ## Chạy trên máy phát triển

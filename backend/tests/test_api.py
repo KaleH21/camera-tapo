@@ -13,7 +13,9 @@ def client(tmp_path):
     os.environ['ADMIN_USERNAME'] = 'admin'
     os.environ['CAMERA_ALLOWED_CIDRS'] = '192.168.1.0/24'
     os.environ['DATA_DIR'] = str(tmp_path)
-    sys.modules.pop('app.main', None)
+    for name in list(sys.modules):
+        if name == 'app' or name.startswith('app.'):
+            sys.modules.pop(name, None)
     module = importlib.import_module('app.main')
     return TestClient(module.app)
 

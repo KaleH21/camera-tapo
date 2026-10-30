@@ -1,0 +1,47 @@
+.info-strip {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 17px 19px;
+  background: #10252c;
+  border: 1px solid #285053;
+  border-radius: 11px;
+  margin-top: 20px;
+}
+.info-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #1b3e44;
+  color: #6bd4b7;
+  flex: none;
+}
+.info-strip > div:nth-child(2) {
+  flex: 1;
+}
+.info-strip strong,
+.info-strip span {
+  display: block;
+}
+.info-strip strong {
+  font-size: 14px;
+  color: #c2e9da;
+}
+.info-strip span {
+  font-size: 14px;
+  color: #83a8a9;
+  margin-top: 2px;
+}
+.info-strip button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 0;
+  color: #80e0c0;
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
+}
