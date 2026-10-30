@@ -1,0 +1,40 @@
+# Local agent tooling
+.agents/skills/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.local
+
+# Python environments, caches and reports
+.venv/
+.venvbackend/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Local camera data and logs
+backend/data/
+*.sqlite3
+*.sqlite3-*
+*.log
+
+# Node dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
